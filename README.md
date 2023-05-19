@@ -3,7 +3,8 @@
 This Is A Very Over Powered Telegram Bot It Can Encode Video With Your Desired FFmpeg Settings
 It Keep Encoding Even After Restart Due To The Database
 
-# Commands
+## Commands
+Add in [@BotFather](https://t.me/BotFather)
 ```
 start - Check Bot is Working Or Not
 simp - Get Sample
@@ -22,7 +23,7 @@ logs - Get Bot Logs
 eval - Execute An Argument
 bash - Run Bash Commands
 ```
-# Deploying
+## Deploying
 Deploying Is Actually Really Easy Just Follow The Steps
 - Fill All Your Info In config.env
 - Then Build The Dockerfile
