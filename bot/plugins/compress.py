@@ -66,7 +66,7 @@ async def renew(e):
 async def sysinfo(e):
     """Get system information and display it in a Telegram message."""
     message = await e.reply_text(
-        "__Getting system information...__",
+        "🚀 **Getting System Information...**",
         quote=True)
     start_time = time.monotonic()
     while time.monotonic() - start_time <= 90:
@@ -138,7 +138,7 @@ async def sysinfo(e):
         await asyncio.sleep(2)
 
     # Edit message to indicate that it has finished after 90 seconds
-    await message.edit_text("**__Finished after 90 seconds.__**")
+    await message.edit_text("🛠 **System Information Finished!**")
 
 def hbs(size):
     if not size:
