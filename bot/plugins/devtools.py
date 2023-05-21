@@ -5,7 +5,6 @@ UN_FINISHED_PROGRESS_STR = "▫️"
 MAX_MESSAGE_LENGTH = 4096
 
 async def exec_message_f(client, message):
-    """Execute a shell command and return the output to the user."""
     if message.from_user.id in Config.DEV:
         DELAY_BETWEEN_EDITS = 0.3
         PROCESS_RUN_TIME = 100
@@ -26,7 +25,7 @@ async def exec_message_f(client, message):
             stdout, stderr = await asyncio.wait_for(process.communicate(), timeout=PROCESS_RUN_TIME)
         except asyncio.TimeoutError:
             process.kill()
-            return await message.reply_text(f"Command `{cmd}` timed out after {PROCESS_RUN_TIME} seconds.")
+            return await message.reply_text(f"⚠️ **Command '{cmd}' Timed Out After {PROCESS_RUN_TIME} Seconds.**", quote=True)
 
         e = stderr.decode().strip()
         o = stdout.decode().strip()
@@ -66,7 +65,6 @@ async def exec_message_f(client, message):
         return
 
 async def aexec(code, client, message):
-    """Execute arbitrary code and return the output to the user."""
     exec(
         f"async def __aexec(client, message): "
         + "".join(f"\n {l}" for l in code.split("\n"))
@@ -74,9 +72,8 @@ async def aexec(code, client, message):
     return await locals()["__aexec"](client, message)
 
 async def eval_message_f(client, message):
-    """Evaluate arbitrary code and return the output to the user."""
     if message.from_user.id in Config.DEV:
-        status_message = await message.reply_text("...", quote=True)
+        status_message = await message.reply_text("`...`", quote=True)
         cmd = message.text.split(" ", maxsplit=1)[1]
 
         reply_to_id = message.id
@@ -93,7 +90,7 @@ async def eval_message_f(client, message):
             await aexec(cmd, client, message)
         except Exception as e:
             exc = traceback.format_exc()
-            evaluation = f"<b>Error:</b> {str(e)}"
+            evaluation = f"Error: {str(e)}"
         else:
             stdout = redirected_output.getvalue()
             stderr = redirected_error.getvalue()

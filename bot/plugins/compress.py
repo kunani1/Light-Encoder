@@ -64,7 +64,6 @@ async def renew(e):
     return
 
 async def sysinfo(e):
-    """Get system information and display it in a Telegram message."""
     message = await e.reply_text(
         "🚀 **Getting System Information...**",
         quote=True)
@@ -80,7 +79,6 @@ async def sysinfo(e):
         dl_size = psutil.net_io_counters().bytes_recv
         ul_size = psutil.net_io_counters().bytes_sent
 
-        # CPU information
         cpu_bar = ['⬢' * int(percent / 10) + '⬡' * (10 - int(percent / 10)) for percent in cpu_usage]
         freq_current = f"{round(cpu_freq.current / 1000, 2)} GHz"
         if cpu_freq.min > 0 and cpu_freq.max > 0:
@@ -90,7 +88,6 @@ async def sysinfo(e):
         else:
             freq_info = f"⏱ **CPU Frequency:** {freq_current}\n\n"
 
-        # RAM information
         ram_perc = int(ram_stats.percent)
         ram_used = psutil._common.bytes2human(ram_stats.used)
         ram_total = psutil._common.bytes2human(ram_stats.total)
@@ -103,17 +100,14 @@ async def sysinfo(e):
             ram_emoji = "📉"
         ram_info = f"{ram_emoji} **RAM Usage:** {ram_perc}%\n[{ram_bar}]\nUsed: {ram_used} of {ram_total}\nFree :  {psutil._common.bytes2human(ram_stats.available)} of {ram_total}\n"
 
-        # Disk information
         disk_perc = int(disk.percent)
         disk_used = psutil._common.bytes2human(disk.used)
         disk_total = psutil._common.bytes2human(disk.total)
         disk_bar = '▪️' * int(disk_perc / 10) + '▫️' * (10 - int(disk_perc / 10))
         disk_info = f"💾 **Disk Usage:** {disk_perc}%\n[{disk_bar}]\nUsed: {disk_used}\nFree :  {psutil._common.bytes2human(disk.free)} of {disk_total}\n"
 
-        # Operating system information
         os_info = f"🛠 **Operating System:** {platform.system()} {platform.release()} ({platform.machine()})\n➖\n"
 
-        # Combine all system information
         sys_info = f"{freq_info}"
         for i, percent in enumerate(cpu_usage[:cpu_count]):
             if cpu_count > 9 and i < 9:
@@ -133,12 +127,11 @@ async def sysinfo(e):
         sys_info += "".join(["➖"] * 11) + "\n"
         sys_info += f"🔻 **DL :** {psutil._common.bytes2human(dl_size)} | 🔺 **UL :** {psutil._common.bytes2human(ul_size)}"
 
-        # Update message with latest system information and sleep for 2 seconds
         await message.edit_text(os_info + sys_info)
         await asyncio.sleep(2)
 
-    # Edit message to indicate that it has finished after 90 seconds
     await message.edit_text("🛠 **System Information Finished!**")
+
 
 def hbs(size):
     if not size:
